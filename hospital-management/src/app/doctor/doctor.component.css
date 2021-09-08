@@ -1,0 +1,23 @@
+.column {
+    float: left;
+    width: 20%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+button {
+    margin-top: 10px;
+    display: flex;
+    margin-left: 50px;
+
+}
+.col-xs-12{
+    display: flex;
+    margin-top: 25px;
+}
+ul {
+    height: 100vh;
+}

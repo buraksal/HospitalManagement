@@ -1,0 +1,34 @@
+button {
+    margin-top: 10px;
+    display: flex;
+    margin-left: 50px;
+}
+input{
+    width: 500px;
+    margin-left: 50px;
+    margin-right: 5px;
+}
+label{
+    margin-top: 10px;
+    display: flex;
+    margin-left: 50px;
+}
+i {
+    display: flex;
+    margin-left: 50px;
+    margin-top: 10px;
+}
+.column {
+    float: left;
+    width: 50%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.col-xs-12{
+    display: flex;
+    margin-top: 75px;
+}
