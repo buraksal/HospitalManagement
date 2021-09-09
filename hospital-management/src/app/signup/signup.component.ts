@@ -65,8 +65,14 @@ export class SignupComponent implements OnInit {
       let config = {
         params, headers 
       }
-      axios.post('https://localhost:44347/signup/create', params, { headers })
+      if(this.isPatient){
+        axios.post('https://localhost:44347/signup/createPatient', params, { headers })
         .then(response => console.log(response));
+      } else {
+        axios.post('https://localhost:44347/signup/create', params, { headers })
+        .then(response => console.log(response));
+      }
+      
     }
     
   }
