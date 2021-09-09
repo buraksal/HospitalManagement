@@ -19,71 +19,41 @@
                           <button type="button" ngbDropdownItem class="btn btn-info" (click)="onDoctor()">Doctor</button>
                         </div>
                     </div>
-                    <div *ngIf="!isPatient">
-                        <label for="name">Name:</label>
-                        <input id="Name" type="text" formControlName="name" class="form-control" autocomplete="off" placeholder="John Clark" required>    
-                        <label for="SSN">SSN:</label>
-                        <input id="SSN" type="text" formControlName="ssn" class="form-control" autocomplete="off" placeholder="123456" required>
-                        <label for="e-Mail">eMail:</label>
-                        <input id="e-Mail" type="text" formControlName="email" class="form-control" autocomplete="off" placeholder="example@gmail.com" required>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input
-                                [type]="fieldTextType ? 'text' : 'password'"
-                                class="form-control; pull-left"
-                                formControlName="password" />
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i
-                                    class="fa"
-                                    [ngClass]="{
-                                        'fa-eye-slash': !fieldTextType,
-                                        'fa-eye': fieldTextType
-                                    }"
-                                    (click)="toggleFieldTextType()"
-                                    ></i>
-                                </span>
-                            </div>
+
+                    <label for="name">Name:</label>
+                    <input id="Name" type="text" formControlName="name" class="form-control" autocomplete="off" placeholder="John Clark" required>    
+                    <label for="SSN">SSN:</label>
+                    <input id="SSN" type="text" formControlName="ssn" class="form-control" autocomplete="off" placeholder="123456" required>
+                    <label for="e-Mail">eMail:</label>
+                    <input id="e-Mail" type="text" formControlName="email" class="form-control" autocomplete="off" placeholder="example@gmail.com" required>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input
+                            [type]="fieldTextType ? 'text' : 'password'"
+                            class="form-control; pull-left"
+                            formControlName="password" />
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i
+                                class="fa"
+                                [ngClass]="{
+                                    'fa-eye-slash': !fieldTextType,
+                                    'fa-eye': fieldTextType
+                                }"
+                                (click)="toggleFieldTextType()"
+                                ></i>
+                            </span>
                         </div>
-                        <div *ngIf="!userTypeSelected">
-                            <div class="alert alert-danger" role="alert">
-                                <p>Please Select the User Type</p>
-                            </div>
+
+                    <div *ngIf="!userTypeSelected">
+                        <div class="alert alert-danger" role="alert">
+                            <p>Please Select the User Type</p>
                         </div>
                     </div>
+                    </div>                        
                     <div *ngIf="isPatient">
-                        <label for="name">Name:</label>
-                        <input id="Name" type="text" formControlName="name" class="form-control" autocomplete="off" placeholder="John Clark" required>    
-                        <label for="SSN">SSN:</label>
-                        <input id="SSN" type="text" formControlName="ssn" class="form-control" autocomplete="off" placeholder="123456" required>
-                        <label for="e-Mail">eMail:</label>
-                        <input id="e-Mail" type="text" formControlName="email" class="form-control" autocomplete="off" placeholder="example@gmail.com" required>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input
-                                [type]="fieldTextType ? 'text' : 'password'"
-                                class="form-control; pull-left"
-                                formControlName="password" />
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i
-                                    class="fa"
-                                    [ngClass]="{
-                                        'fa-eye-slash': !fieldTextType,
-                                        'fa-eye': fieldTextType
-                                    }"
-                                    (click)="toggleFieldTextType()"
-                                    ></i>
-                                </span>
-                            </div>
-                        </div>
                         <label for="complaint">Complaint:</label>
                         <input id="Complaint" type="text" formControlName="complaint" class="form-control" autocomplete="off" placeholder="Write your complaint here" required>
-                        <div *ngIf="!userTypeSelected">
-                            <div class="alert alert-danger" role="alert">
-                                <p>Please Select the User Type</p>
-                            </div>
-                        </div>
                     </div>
                     
                     <button type="submit" class="btn btn-primary" [disabled]="!signupForm.valid">Sign Up</button>
@@ -97,6 +67,7 @@
                         <p>All the Fields must be filled!</p>
                         <p>SSN Number must be at least 6 characters long!</p>
                         <p>Password must be at least 4 characters long!</p>
+                        <p *ngIf="isPatient">Complaint must be minimum 10 characters long!</p>
                     </div>
                 </div>
             </div>
