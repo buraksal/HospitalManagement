@@ -15,10 +15,12 @@ export class SignupComponent implements OnInit {
   ssn: string = '';
   email: string = '';
   password: string = '';
+  complaint: string = '';
   userTypeStr: string = 'Select User Type';
   userType: number = 0;
   fieldTextType: boolean;
   userTypeSelected: boolean = true;
+  isPatient: boolean = false;
 
   constructor(private router: Router) { }
 
@@ -38,6 +40,10 @@ export class SignupComponent implements OnInit {
         Validators.required,
         Validators.minLength(4)
       ]),
+      complaint: new FormControl(this.password, [
+        Validators.required,
+        Validators.minLength(10)
+      ]),
     })
   }
 
@@ -50,6 +56,7 @@ export class SignupComponent implements OnInit {
         ssn: this.signupForm.get('ssn').value,
         email: this.signupForm.get('email').value,
         password: this.signupForm.get('password').value, 
+        complaint: this.signupForm.get('complaint').value,
         userType: this.userType
       };
       const headers = { 
@@ -71,16 +78,19 @@ export class SignupComponent implements OnInit {
   onPatient(){
     this.userTypeStr = "Patient";
     this.userType = 4;
+    this.isPatient = true;
     this.userTypeSelected = true;
   }
   onNurse(){
     this.userTypeStr = "Nurse";
     this.userType = 3;
+    this.isPatient = false;
     this.userTypeSelected = true;
   }
   onDoctor(){
     this.userTypeStr = "Doctor";
     this.userType = 2;
+    this.isPatient = false;
     this.userTypeSelected = true;
   }
 
