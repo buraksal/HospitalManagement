@@ -15,7 +15,8 @@ export class SignupComponent implements OnInit {
   ssn: string = '';
   email: string = '';
   password: string = '';
-  userType: string = 'Select User Type';
+  userTypeStr: string = 'Select User Type';
+  userType: number = 0;
   fieldTextType: boolean;
   userTypeSelected: boolean = true;
 
@@ -41,7 +42,7 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(){
-    if(this.userType == 'Select User Type'){
+    if(this.userTypeStr == 'Select User Type'){
       this.userTypeSelected = false;
     } else {
       const params = { 
@@ -68,15 +69,18 @@ export class SignupComponent implements OnInit {
   }
 
   onPatient(){
-    this.userType = "Patient";
+    this.userTypeStr = "Patient";
+    this.userType = 4;
     this.userTypeSelected = true;
   }
   onNurse(){
-    this.userType = "Nurse";
+    this.userTypeStr = "Nurse";
+    this.userType = 3;
     this.userTypeSelected = true;
   }
   onDoctor(){
-    this.userType = "Doctor";
+    this.userTypeStr = "Doctor";
+    this.userType = 2;
     this.userTypeSelected = true;
   }
 
