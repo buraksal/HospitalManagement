@@ -3,17 +3,8 @@
     <div class="row">
         <div class="column">
             <ul class="button group">
-                <button>
-                    1
-                </button>
-                <button>
-                    2   
-                </button>
-                <button>
-                    3
-                </button>
-                <button>
-                    4
+                <button (click)="listUser()">
+                    User List
                 </button>
             </ul>
         </div>
@@ -21,9 +12,30 @@
             <div class="text-center">
                 <div class="col-xs-12">
                     <div class="alert alert-info" role="alert">
-                        <p>
-                            Info will be shown here!
-                        </p>
+                        <div class="user-table">
+                            <table class="table table-bordered text-center table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">SSN</th>
+                                        <th class="text-center">E-Mail</th>
+                                        <th class="text-center">Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let user of userList; index as i">
+                                        <tr>
+                                            <td> {{i+1}} </td>
+                                            <td>{{userList[i].name}}</td>
+                                            <td>{{userList[i].ssn}}</td>
+                                            <td>{{userList[i].email}}</td>
+                                            <td>{{userList[i].userType}}</td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -20,7 +20,6 @@ export class SignupComponent implements OnInit {
   userType: number = 0;
   fieldTextType: boolean;
   userTypeSelected: boolean = true;
-  isPatient: boolean = false;
 
   constructor(private router: Router) { }
 
@@ -39,11 +38,7 @@ export class SignupComponent implements OnInit {
       password: new FormControl(this.password, [
         Validators.required,
         Validators.minLength(4)
-      ]),
-      complaint: new FormControl(this.password, [
-        Validators.required,
-        Validators.minLength(10)
-      ]),
+      ])
     })
   }
 
@@ -56,23 +51,13 @@ export class SignupComponent implements OnInit {
         ssn: this.signupForm.get('ssn').value,
         email: this.signupForm.get('email').value,
         password: this.signupForm.get('password').value, 
-        complaint: this.signupForm.get('complaint').value,
         userType: this.userType
       };
       const headers = { 
         'Content-Type':'application/json'
       };
-      let config = {
-        params, headers 
-      }
-      if(this.isPatient){
-        axios.post('https://localhost:44347/signup/createPatient', params, { headers })
-        .then(response => console.log(response));
-      } else {
-        axios.post('https://localhost:44347/signup/create', params, { headers })
-        .then(response => console.log(response));
-      }
-      
+      axios.post('https://localhost:44347/signup/create', params, { headers })
+      .then(response => console.log(response));
     }
     
   }
@@ -80,23 +65,14 @@ export class SignupComponent implements OnInit {
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
-
-  onPatient(){
-    this.userTypeStr = "Patient";
-    this.userType = 4;
-    this.isPatient = true;
-    this.userTypeSelected = true;
-  }
   onNurse(){
     this.userTypeStr = "Nurse";
-    this.userType = 3;
-    this.isPatient = false;
+    this.userType = 2;
     this.userTypeSelected = true;
   }
   onDoctor(){
     this.userTypeStr = "Doctor";
-    this.userType = 2;
-    this.isPatient = false;
+    this.userType = 1;
     this.userTypeSelected = true;
   }
 

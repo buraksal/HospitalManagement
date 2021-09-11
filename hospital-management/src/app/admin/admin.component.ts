@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import axios from 'axios';
 
 @Component({
   selector: 'app-admin',
@@ -7,12 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
   userType: string = 'Admin';
-
+  userList: any;
   constructor() { }
 
   ngOnInit(): void {
-    //get required info on component call
-    //create admin instance
+  }
+
+  listUser(){
+    axios.get('https://localhost:44347/admin/getUserList')
+      .then(response => {
+        this.userList = response.data
+    });
   }
 
 }

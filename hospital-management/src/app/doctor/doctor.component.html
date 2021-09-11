@@ -1,17 +1,20 @@
-<app-header [userType]="userType"></app-header>
+<app-header [userName]="docName"></app-header>
 <div class="text-center">
     <div class="row">
         <div class="column">
             <aside class="main-sidebar">
                 <ul class="button group; alert alert-warning">
-                    <button>
-                        Enter Appointment Results
+                    <button (click)="addPatient()">
+                        Add Patient
                     </button>
-                    <button>
-                        View Test Results   
+                    <button (click)="editPatient()">
+                        Edit Patient
                     </button>
-                    <button>
-                        Add Prescription
+                    <button (click)="deletePatient()">
+                        Delete Patient
+                    </button>
+                    <button (click)="listPatient()">
+                        List Patient  
                     </button>
                 </ul>
             </aside>
@@ -21,9 +24,114 @@
             <div class="text-center">
                 <div class="col-xs-12">
                     <div class="alert alert-info" role="alert">
-                        <p>
-                            Info will be shown here!
-                        </p>
+                        <div *ngIf="selectedOption==='list'">
+                            <div class="patient-table">
+                                <table class="table table-bordered text-center table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">Name</th>
+                                            <th class="text-center">SSN</th>
+                                            <th class="text-center">Complaint</th>
+                                            <th class="text-center">E-Mail</th>
+                                            <th class="text-center">Added By</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let patient of patientList; index as i">
+                                            <tr>
+                                                <td> {{i+1}} </td>
+                                                <td>{{patientList[i].name}}</td>
+                                                <td>{{patientList[i].ssn}}</td>
+                                                <td>{{patientList[i].complaint}}</td>
+                                                <td>{{patientList[i].email}}</td>
+                                                <td>{{patientList[i].createdby}}</td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div *ngIf="selectedOption==='add'">
+                            <form [formGroup]="addPatientForm" (ngSubmit)="onSubmit()">
+                                <label for="name">Name:</label>
+                                <input id="Name" type="text" formControlName="name" class="form-control" autocomplete="off" placeholder="John Clark" required>    
+                                <label for="SSN">SSN:</label>
+                                <input id="SSN" type="text" formControlName="ssn" class="form-control" autocomplete="off" placeholder="123456" required>
+                                <label for="e-Mail">eMail:</label>
+                                <input id="e-Mail" type="text" formControlName="email" class="form-control" autocomplete="off" placeholder="example@gmail.com" required>
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input
+                                        [type]="fieldTextType ? 'text' : 'password'"
+                                        class="form-control; pull-left"
+                                        formControlName="password" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i
+                                            class="fa"
+                                            [ngClass]="{
+                                                'fa-eye-slash': !fieldTextType,
+                                                'fa-eye': fieldTextType
+                                            }"
+                                            (click)="toggleFieldTextType()"
+                                            ></i>
+                                        </span>
+                                    </div>
+                                </div>                        
+                                <label for="complaint">Complaint:</label>
+                                <input id="Complaint" type="text" formControlName="complaint" class="form-control" autocomplete="off" placeholder="Write your complaint here" required>
+                                <button type="submit" class="btn btn-primary" [disabled]="!addPatientForm.valid">Add Patient</button>
+                            </form>
+                        </div>
+                        <div *ngIf="selectedOption==='edit'">
+                            <label for="patientssn">SSN:</label>
+                            <input id="Ssn" type="text" autocomplete="off" placeholder="123456789" required [(ngModel)]="patientSSN"> 
+                            <button (click)="searchPatient()">Search</button>
+                            <div *ngIf="!recordFound" class="alert alert-danger">
+                                <p>No Record Found!</p>
+                            </div>
+                        </div>                        
+                        <div *ngIf="selectedOption==='patientedit'">
+                            <form [formGroup]="editPatientForm" (ngSubmit)="onSavePatient()">
+                                <label for="name">Name:</label>
+                                <input id="Name" type="text" formControlName="name" class="form-control" autocomplete="off" placeholder="{{patientInfo.name}}" required>    
+                                <label for="ssn">SSN:</label>
+                                <input id="SSN" type="text" formControlName="ssn" class="form-control" autocomplete="off" placeholder="{{patientInfo.ssn}}" required>
+                                <label for="e-Mail">eMail:</label>
+                                <input id="e-Mail" type="text" formControlName="email" class="form-control" autocomplete="off" placeholder="{{patientInfo.email}}" required>
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input
+                                        [type]="fieldTextType ? 'text' : 'password'"
+                                        class="form-control; pull-left"
+                                        formControlName="password" 
+                                        placeholder="{{patientInfo.password}}"/>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i
+                                            class="fa"
+                                            [ngClass]="{
+                                                'fa-eye-slash': !fieldTextType,
+                                                'fa-eye': fieldTextType
+                                            }"
+                                            (click)="toggleFieldTextType()"
+                                            ></i>
+                                        </span>
+                                    </div>
+                                </div>                        
+                                <label for="complaint">Complaint:</label>
+                                <input id="Complaint" type="text" formControlName="complaint" class="form-control" autocomplete="off" placeholder="{{patientInfo.complaint}}" required>
+                                <label for="createdby">Created By:</label>
+                                <input id="Createdby" type="text" formControlName="createdby" class="form-control" autocomplete="off" placeholder="{{patientInfo.createdby}}" required>
+                                <button type="submit" class="btn btn-primary" [disabled]="!editPatientForm.valid">Save Patient</button>
+                            </form>
+                        </div>
+                        <div *ngIf="selectedOption==='delete'">
+                            <label for="patientssn">SSN:</label>
+                            <input id="Ssn" type="text" autocomplete="off" placeholder="123456789" required [(ngModel)]="patientSSN"> 
+                            <button (click)="deletePatient()">Delete</button>
+                        </div>
                     </div>
                 </div>
             </div>

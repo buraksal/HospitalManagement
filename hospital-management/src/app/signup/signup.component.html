@@ -14,7 +14,6 @@
                         <button type="button" class="btn btn-primary" 
                             id="dropdownBasic1" ngbDropdownToggle>{{userTypeStr}} ▼</button>
                         <div ngbDropdownMenu class="text-center">
-                          <button type="button" ngbDropdownItem class="btn btn-info" (click)="onPatient()">Patient</button>
                           <button type="button" ngbDropdownItem class="btn btn-info" (click)="onNurse()">Nurse</button>
                           <button type="button" ngbDropdownItem class="btn btn-info" (click)="onDoctor()">Doctor</button>
                         </div>
@@ -51,11 +50,6 @@
                         </div>
                     </div>
                     </div>                        
-                    <div *ngIf="isPatient">
-                        <label for="complaint">Complaint:</label>
-                        <input id="Complaint" type="text" formControlName="complaint" class="form-control" autocomplete="off" placeholder="Write your complaint here" required>
-                    </div>
-                    
                     <button type="submit" class="btn btn-primary" [disabled]="!signupForm.valid">Sign Up</button>
                 </form>
             </div>
@@ -67,7 +61,6 @@
                         <p>All the Fields must be filled!</p>
                         <p>SSN Number must be at least 6 characters long!</p>
                         <p>Password must be at least 4 characters long!</p>
-                        <p *ngIf="isPatient">Complaint must be minimum 10 characters long!</p>
                     </div>
                 </div>
             </div>
