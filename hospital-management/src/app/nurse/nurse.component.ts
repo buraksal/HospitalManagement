@@ -23,6 +23,7 @@ export class NurseComponent implements OnInit {
   patientInfo: Patient;
   patientSSN: string = '';
   nurseName: string = '';
+  successfullAddition: boolean = false;
   recordFound: boolean = true;
 
   constructor(public activatedRoute: ActivatedRoute) { }
@@ -79,10 +80,12 @@ export class NurseComponent implements OnInit {
   }
 
   addPatient(){
+    this.successfullAddition = false;
     this.selectedOption = "add";
   }
 
   editPatient(){
+    this.successfullAddition = false;
     this.selectedOption = "edit";
   }
 
@@ -119,6 +122,7 @@ export class NurseComponent implements OnInit {
   }
 
   onSavePatient(){
+    this.successfullAddition = false;
     const params = { 
       name: this.editPatientForm.get('name').value,
       ssn: this.editPatientForm.get('ssn').value,
@@ -133,10 +137,12 @@ export class NurseComponent implements OnInit {
     axios.put('https://localhost:44347/nurse/updatePatient', params, {headers})
       .then(response => {
         console.log(response)
-      });
+    });
+    this.editPatientForm.reset();
   }
 
   deletePatient(){
+    this.successfullAddition = false;
     this.selectedOption = "delete";
     axios.delete('https://localhost:44347/nurse/deletePatient', {
       headers: {
@@ -153,6 +159,7 @@ export class NurseComponent implements OnInit {
   }
 
   listPatient(){
+    this.successfullAddition = false;
     this.selectedOption = "list";
     axios.get('https://localhost:44347/nurse/getPatientList')
       .then(response => {
@@ -161,6 +168,7 @@ export class NurseComponent implements OnInit {
   }
 
   onSubmit(){
+    this.successfullAddition = false;
     const params = { 
       name: this.addPatientForm.get('name').value,
       ssn: this.addPatientForm.get('ssn').value,
@@ -173,6 +181,10 @@ export class NurseComponent implements OnInit {
       'Content-Type':'application/json'
     };
     axios.post('https://localhost:44347/nurse/createpatient', params, { headers })
-      .then(response => console.log(response));
+      .then(response => {
+        console.log(response)
+        this.successfullAddition = false;
+      });
+    this.addPatientForm.reset();
   }
 }

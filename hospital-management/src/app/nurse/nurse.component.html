@@ -84,6 +84,9 @@
                                 <button type="submit" class="btn btn-primary" [disabled]="!addPatientForm.valid">Add Patient</button>
                             </form>
                         </div>
+                        <div *ngIf="successfullAddition" class="alert alert-warning">
+                            <p>Successfully Created!</p>
+                        </div> 
                         <div *ngIf="selectedOption==='edit'">
                             <label for="patientssn">SSN:</label>
                             <input id="Ssn" type="text" autocomplete="off" placeholder="123456789" required [(ngModel)]="patientSSN"> 
