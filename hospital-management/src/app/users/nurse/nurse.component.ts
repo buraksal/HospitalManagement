@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
-import { Patient } from '../models/patient.model';
+import { Patient } from '../../shared/models/patient.model';
 
 @Component({
   selector: 'app-nurse',
