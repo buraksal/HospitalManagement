@@ -1,11 +1,11 @@
-import { Nurse } from "./nurse.model";
+import { UserTypes } from "./usertypes.model";
 
 export class Doctor {
-    constructor(public id: number, 
+    constructor(
+        public userType: UserTypes = UserTypes.Doctor,
         public name: string,
         public email: string,
         public password: string,
-        public ssn: string,
-        public department: string,
-        public nurse: Nurse[]) {}
+        public ssn: string
+        ) {}
 }

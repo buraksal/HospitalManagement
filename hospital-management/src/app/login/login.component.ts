@@ -2,14 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import axios, { AxiosResponse } from 'axios';
-import { stringify } from 'querystring';
+import { UserTypes } from '../models/usertypes.model';
 
-enum UserTypes {
-  Admin = 0,
-  Doctor = 1,
-  Nurse = 2,
-  Patient = 3
-}
+
 
 
 @Component({
