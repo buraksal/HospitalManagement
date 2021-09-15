@@ -4,6 +4,14 @@ import { Router } from '@angular/router';
 import axios, { AxiosResponse } from 'axios';
 import { stringify } from 'querystring';
 
+enum UserTypes {
+  Admin = 0,
+  Doctor = 1,
+  Nurse = 2,
+  Patient = 3
+}
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -41,7 +49,7 @@ export class LoginComponent implements OnInit {
     const headers = { 
       'Content-Type':'application/json'
     };
-    axios.post('https://localhost:44347/login/signin', params, { headers })
+    axios.post('https://localhost:44349/login/signin', params, { headers })
       .then(response => {
         this.userData = response.data
         this.navigateToUserPage()
@@ -58,15 +66,15 @@ export class LoginComponent implements OnInit {
   }
 
   navigateToUserPage(){
-    if( Number(this.userData.userType) == 1){
+    if( this.userData.userType == UserTypes.Doctor){
       this.router.navigate(['/doctor', this.userData.id], {queryParams: 
         {name: this.userData.name}
       });
-    } else if(Number(this.userData.userType) == 2){
+    } else if(this.userData.userType == UserTypes.Nurse){
       this.router.navigate(['/nurse', this.userData.id], {queryParams: 
         {name: this.userData.name}
       });
-    } else if (Number(this.userData.userType) == 3){
+    } else if (this.userData.userType == UserTypes.Patient){
       this.router.navigate(['/patient', this.userData.id], {queryParams: 
         {name: this.userData.name}
       });
