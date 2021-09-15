@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent } from './admin/admin.component';
+import { AdminComponent } from './users/admin/admin.component';
 import { AppComponent } from './app.component';
-import { DoctorComponent } from './doctor/doctor.component';
-import { HeaderComponent } from './header/header.component';
-import { LoginComponent } from './login/login.component';
-import { NurseComponent } from './nurse/nurse.component';
-import { PatientComponent } from './patient/patient.component';
-import { SignupComponent } from './signup/signup.component';
+import { DoctorComponent } from './users/doctor/doctor.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { LoginComponent } from './utilities/login/login.component';
+import { NurseComponent } from './users/nurse/nurse.component';
+import { PatientComponent } from './users/patient/patient.component';
+import { SignupComponent } from './utilities/signup/signup.component';
 
 const routes: Routes = [
   {path: '', redirectTo:'/login', pathMatch: "full"},

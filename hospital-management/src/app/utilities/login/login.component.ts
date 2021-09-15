@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import axios, { AxiosResponse } from 'axios';
-import { UserTypes } from '../models/usertypes.model';
+import { UserTypes } from '../../shared/models/usertypes.model';
 
 
 
