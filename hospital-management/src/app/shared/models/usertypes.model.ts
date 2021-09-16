@@ -3,4 +3,4 @@ export enum UserTypes {
     Doctor = 1,
     Nurse = 2,
     Patient = 3
-  }
+}

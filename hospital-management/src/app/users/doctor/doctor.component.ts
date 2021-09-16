@@ -184,7 +184,7 @@ export class DoctorComponent implements OnInit {
     const headers = { 
       'Content-Type':'application/json'
     };
-    axios.post('https://localhost:44347/doctor/createpatient', params, { headers })
+    axios.post('https://localhost:44349/doctor/createpatient', params, { headers })
       .then(response => {
         console.log(response.status)
         if(response.status == 200){

@@ -15,7 +15,7 @@ export class AdminComponent implements OnInit {
   }
 
   listUser(){
-    axios.get('https://localhost:44347/admin/getUserList')
+    axios.get('https://localhost:44349/admin/getUserList')
       .then(response => {
         this.userList = response.data
     });

@@ -96,7 +96,7 @@ export class NurseComponent implements OnInit {
     const headers = { 
       'Content-Type':'application/json'
     };
-    axios.post('https://localhost:44347/doctor/getPatient', params, { headers })
+    axios.post('https://localhost:44349/doctor/getPatient', params, { headers })
       .then(response => {
         if(response.data != ''){
           this.recordFound = true;
@@ -134,7 +134,7 @@ export class NurseComponent implements OnInit {
     const headers = { 
       'Content-Type':'application/json'
     };
-    axios.put('https://localhost:44347/nurse/updatePatient', params, {headers})
+    axios.put('https://localhost:44349/nurse/updatePatient', params, {headers})
       .then(response => {
         console.log(response)
     });
@@ -144,7 +144,7 @@ export class NurseComponent implements OnInit {
   deletePatient(){
     this.successfullAddition = false;
     this.selectedOption = "delete";
-    axios.delete('https://localhost:44347/nurse/deletePatient', {
+    axios.delete('https://localhost:44349/nurse/deletePatient', {
       headers: {
         'Content-Type':'application/json'
       },
@@ -161,7 +161,7 @@ export class NurseComponent implements OnInit {
   listPatient(){
     this.successfullAddition = false;
     this.selectedOption = "list";
-    axios.get('https://localhost:44347/nurse/getPatientList')
+    axios.get('https://localhost:44349/nurse/getPatientList')
       .then(response => {
         this.patientList = response.data
     });
@@ -180,7 +180,7 @@ export class NurseComponent implements OnInit {
     const headers = { 
       'Content-Type':'application/json'
     };
-    axios.post('https://localhost:44347/nurse/createpatient', params, { headers })
+    axios.post('https://localhost:44349/nurse/createpatient', params, { headers })
       .then(response => {
         console.log(response)
         this.successfullAddition = false;
