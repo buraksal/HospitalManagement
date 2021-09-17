@@ -118,7 +118,7 @@ export class NurseComponent implements OnInit {
     this.editPatientForm.get('email').setValue(this.patientInfo.email);
     this.editPatientForm.get('password').setValue(this.patientInfo.password);
     this.editPatientForm.get('complaint').setValue(this.patientInfo.complaint);
-    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdby);
+    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdBy);
   }
 
   onSavePatient(){

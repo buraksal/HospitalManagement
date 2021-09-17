@@ -58,6 +58,7 @@ export class SignupComponent implements OnInit {
       };
       axios.post('https://localhost:44349/signup/create', params, { headers })
       .then(response => console.log(response));
+      this.signupForm.reset();
     }
     
   }

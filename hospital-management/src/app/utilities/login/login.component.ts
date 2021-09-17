@@ -46,7 +46,9 @@ export class LoginComponent implements OnInit {
     };
     axios.post('https://localhost:44349/login/signin', params, { headers })
       .then(response => {
-        this.userData = response.data
+        this.userData = response
+        console.log(response)
+        console.log(this.userData.data)
         this.navigateToUserPage()
     });
 
@@ -61,17 +63,18 @@ export class LoginComponent implements OnInit {
   }
 
   navigateToUserPage(){
-    if( this.userData.userType == UserTypes.Doctor){
-      this.router.navigate(['/doctor', this.userData.id], {queryParams: 
-        {name: this.userData.name}
+    console.log(this.userData.data.userType + " " + UserTypes.Doctor);
+    if( this.userData.data.userType == UserTypes.Doctor){
+      this.router.navigate(['/doctor', this.userData.data.id], {queryParams: 
+        {name: this.userData.data.name}
       });
-    } else if(this.userData.userType == UserTypes.Nurse){
-      this.router.navigate(['/nurse', this.userData.id], {queryParams: 
-        {name: this.userData.name}
+    } else if(this.userData.data.userType == UserTypes.Nurse){
+      this.router.navigate(['/nurse', this.userData.data.id], {queryParams: 
+        {name: this.userData.data.name}
       });
-    } else if (this.userData.userType == UserTypes.Patient){
-      this.router.navigate(['/patient', this.userData.id], {queryParams: 
-        {name: this.userData.name}
+    } else if (this.userData.data.userType == UserTypes.Patient){
+      this.router.navigate(['/patient', this.userData.data.id], {queryParams: 
+        {name: this.userData.data.name}
       });
     }
   }

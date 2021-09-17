@@ -97,7 +97,7 @@ export class DoctorComponent implements OnInit {
     const headers = { 
       'Content-Type':'application/json'
     };
-    axios.post('https://localhost:44347/doctor/getPatient', params, { headers })
+    axios.post('https://localhost:44349/user/getPatient', params, { headers })
       .then(response => {
         if(response.data != ''){
           this.recordFound = true;
@@ -109,8 +109,6 @@ export class DoctorComponent implements OnInit {
         }
         
       });
-    
-
   }
 
   fillEditForm(){
@@ -119,9 +117,7 @@ export class DoctorComponent implements OnInit {
     this.editPatientForm.get('email').setValue(this.patientInfo.email);
     this.editPatientForm.get('password').setValue(this.patientInfo.password);
     this.editPatientForm.get('complaint').setValue(this.patientInfo.complaint);
-    console.log(typeof(this.patientInfo.createdby));
-    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdby);
-    console.log(this.editPatientForm.get('createdby').value);
+    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdBy);
   }
 
   onSavePatient(){
@@ -137,17 +133,20 @@ export class DoctorComponent implements OnInit {
     const headers = { 
       'Content-Type':'application/json'
     };
-    axios.put('https://localhost:44347/doctor/updatePatient', params, {headers})
+    axios.put('https://localhost:44349/user/updatePatient', params, {headers})
       .then(response => {
         console.log(response)
       });
     this.editPatientForm.reset();
   }
 
-  deletePatient(){
+  setSelectedOptionDelete(){
     this.successfullAddition = false;
     this.selectedOption = "delete";
-    axios.delete('https://localhost:44347/doctor/deletePatient', {
+  }
+
+  deletePatient(){
+    axios.delete('https://localhost:44349/user/deletePatient', {
       headers: {
         'Content-Type':'application/json'
       },
@@ -164,7 +163,7 @@ export class DoctorComponent implements OnInit {
   listPatient(){
     this.successfullAddition = false;
     this.selectedOption = "list";
-    axios.get('https://localhost:44347/doctor/getPatientList')
+    axios.get('https://localhost:44349/user/getPatientList')
       .then(response => {
         this.patientList = response.data
     });
@@ -179,18 +178,19 @@ export class DoctorComponent implements OnInit {
       password: this.addPatientForm.get('password').value, 
       complaint: this.addPatientForm.get('complaint').value,
       createdby: this.docName,
-      userType: 3
     };
     const headers = { 
       'Content-Type':'application/json'
     };
-    axios.post('https://localhost:44349/doctor/createpatient', params, { headers })
+    axios.post('https://localhost:44349/user/createpatient', params, { headers })
       .then(response => {
         console.log(response.status)
         if(response.status == 200){
           this.successfullAddition = true;
         }
-      });
+      }).catch(error => {
+        console.log(error.response)
+    });
     this.addPatientForm.reset();  
   }
 
