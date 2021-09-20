@@ -49,11 +49,12 @@ export class LoginComponent implements OnInit {
     const headers = { 
       'Content-Type':'application/json'
     };
-    axios.post('https://localhost:44349/login/signin', params, { headers })
+    axios.post('https://localhost:44349/login/auth', params, { headers })
       .then(response => {
         const token = (<any>response).token;
         localStorage.setItem("jwt", token);
         this.invalidLogin = false;
+        console.log(response);
         // this.userData = response
         // console.log(response)
         // console.log(this.userData.data)

@@ -103,6 +103,7 @@ export class DoctorComponent implements OnInit {
         if(response.data != ''){
           this.recordFound = true;
           this.patientInfo = response.data;
+          console.log(this.patientInfo);
           this.selectedOption = "patientedit";
           this.fillEditForm();
         } else {
@@ -118,7 +119,7 @@ export class DoctorComponent implements OnInit {
     this.editPatientForm.get('email').setValue(this.patientInfo.email);
     this.editPatientForm.get('password').setValue(this.patientInfo.password);
     this.editPatientForm.get('complaint').setValue(this.patientInfo.complaint);
-    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdBySsn);
+    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdBy);
   }
 
   onSavePatient(){

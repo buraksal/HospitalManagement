@@ -8,6 +8,6 @@ export class Patient {
         public password: string,
         public ssn: string,
         public complaint: string,
-        public createdBySsn: string) {}
+        public createdBy: string) {}
 }
   
