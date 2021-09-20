@@ -5,8 +5,8 @@ import axios, { AxiosResponse } from 'axios';
 import { Doctor } from 'src/app/shared/models/admin.model';
 import { Nurse } from 'src/app/shared/models/nurse.model';
 import { Patient } from 'src/app/shared/models/patient.model';
-import { UserTypes } from '../../shared/models/usertypes.model';
-import { LoginService } from '../login-service/login-service';
+import { UserTypes } from 'src/app/shared/models/usertypes.model';
+import { LoginService } from '../../services/login-service/login-service';
 
 
 @Component({
@@ -22,11 +22,13 @@ export class LoginComponent implements OnInit {
   responseDisplay: string ='';
   userData: any;
   fieldTextType: boolean;
+  invalidLogin: boolean;
   
   constructor(private router: Router,
               private loginSevice: LoginService) { }
 
   ngOnInit(): void {
+    this.loggedInUser = this.loginSevice.getLoggedInUser();
     this.loginForm = new FormGroup({
       email: new FormControl(this.email, [
         Validators.required,
@@ -49,10 +51,15 @@ export class LoginComponent implements OnInit {
     };
     axios.post('https://localhost:44349/login/signin', params, { headers })
       .then(response => {
-        this.userData = response
-        console.log(response)
-        console.log(this.userData.data)
-        this.navigateToUserPage()
+        const token = (<any>response).token;
+        localStorage.setItem("jwt", token);
+        this.invalidLogin = false;
+        // this.userData = response
+        // console.log(response)
+        // console.log(this.userData.data)
+        // this.navigateToUserPage()
+    }, err => {
+      this.invalidLogin = true;
     });
 
   }

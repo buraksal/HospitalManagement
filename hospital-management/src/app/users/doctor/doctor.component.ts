@@ -3,6 +3,8 @@ import { Patient } from '../../shared/models/patient.model';
 import axios from 'axios';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { LoginService } from 'src/app/utilities/services/login-service/login-service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-doctor',
@@ -26,8 +28,11 @@ export class DoctorComponent implements OnInit {
   createdby: string = '';
   successfullAddition: boolean = false;
   recordFound: boolean = true;
+  loggedInUser: any;
 
-  constructor(public activatedRoute: ActivatedRoute) { }
+  constructor(public activatedRoute: ActivatedRoute,
+              public loginService: LoginService,
+              private jwtHelper: JwtHelperService) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(
@@ -57,11 +62,7 @@ export class DoctorComponent implements OnInit {
     })
     this.editPatientForm = new FormGroup({
       name: new FormControl(this.name, [Validators.required]),
-      ssn: new FormControl(this.ssn, [
-        Validators.required, 
-        Validators.pattern("^[0-9]*$"),
-        Validators.minLength(6)
-      ]),
+      ssn: new FormControl({value: this.ssn, disabled: true}),
       email: new FormControl(this.email, [
         Validators.required,
         Validators.email
@@ -117,7 +118,7 @@ export class DoctorComponent implements OnInit {
     this.editPatientForm.get('email').setValue(this.patientInfo.email);
     this.editPatientForm.get('password').setValue(this.patientInfo.password);
     this.editPatientForm.get('complaint').setValue(this.patientInfo.complaint);
-    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdBy);
+    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdBySsn);
   }
 
   onSavePatient(){
@@ -171,13 +172,14 @@ export class DoctorComponent implements OnInit {
 
   onSubmit(){
     this.successfullAddition = false;
+    console.log(this.loggedInUser);
     const params = { 
       name: this.addPatientForm.get('name').value,
       ssn: this.addPatientForm.get('ssn').value,
       email: this.addPatientForm.get('email').value,
       password: this.addPatientForm.get('password').value, 
       complaint: this.addPatientForm.get('complaint').value,
-      createdby: this.docName,
+      createdby: this.loggedInUser.ssn,
     };
     const headers = { 
       'Content-Type':'application/json'
@@ -194,4 +196,9 @@ export class DoctorComponent implements OnInit {
     this.addPatientForm.reset();  
   }
 
+  isAuthenticated(){
+    const token: string = localStorage.getItem("jwt");
+    if(token && !this.jwtHelper.isTokenExpired(token)) return true;
+    else return false;
+  }
 }

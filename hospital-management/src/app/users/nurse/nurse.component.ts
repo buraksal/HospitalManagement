@@ -57,7 +57,7 @@ export class NurseComponent implements OnInit {
     this.editPatientForm = new FormGroup({
       name: new FormControl(this.name, [Validators.required]),
       ssn: new FormControl(this.ssn, [
-        Validators.required, 
+        Validators.required,
         Validators.pattern("^[0-9]*$"),
         Validators.minLength(6)
       ]),
@@ -118,7 +118,7 @@ export class NurseComponent implements OnInit {
     this.editPatientForm.get('email').setValue(this.patientInfo.email);
     this.editPatientForm.get('password').setValue(this.patientInfo.password);
     this.editPatientForm.get('complaint').setValue(this.patientInfo.complaint);
-    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdBy);
+    this.editPatientForm.get('createdby').setValue(this.patientInfo.createdBySsn);
   }
 
   onSavePatient(){
