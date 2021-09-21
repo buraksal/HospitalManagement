@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import axios, { AxiosResponse } from 'axios';
 import { Doctor } from 'src/app/shared/models/admin.model';
 import { Nurse } from 'src/app/shared/models/nurse.model';
@@ -51,14 +52,10 @@ export class LoginComponent implements OnInit {
     };
     axios.post('https://localhost:44349/login/auth', params, { headers })
       .then(response => {
-        const token = (<any>response).token;
+        const token = (<any>response).data;
         localStorage.setItem("jwt", token);
         this.invalidLogin = false;
-        console.log(response);
-        // this.userData = response
-        // console.log(response)
-        // console.log(this.userData.data)
-        // this.navigateToUserPage()
+        this.navigateToUserPage(token);
     }, err => {
       this.invalidLogin = true;
     });
@@ -73,63 +70,56 @@ export class LoginComponent implements OnInit {
     this.fieldTextType = !this.fieldTextType;
   }
 
-  navigateToUserPage(){
-    console.log(this.userData.data.userType + " " + UserTypes.Doctor);
-    this.createUser(this.userData.data);
+  navigateToUserPage(token: any){
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(token);
+    this.createUser(decodedToken.User);
+    this.loggedInUser = this.loginSevice.getLoggedInUser();
     if( this.loggedInUser.userType == UserTypes.Doctor){
-      console.log(this.loggedInUser);
-      this.router.navigate(['/doctor', this.userData.data.id], {queryParams: 
-        {name: this.userData.data.name}
-      });
+      this.router.navigate(['/doctor', this.loggedInUser.name]);
     } else if(this.loggedInUser.userType == UserTypes.Nurse){
-
-      this.router.navigate(['/nurse', this.userData.data.id], {queryParams: 
-        {name: this.userData.data.name}
-      });
+      this.router.navigate(['/nurse', this.loggedInUser.name]);
     } else if (this.loggedInUser.userType == UserTypes.Patient){
-
-      this.router.navigate(['/patient', this.userData.data.id], {queryParams: 
-        {name: this.userData.data.name}
-      });
+      this.router.navigate(['/patient', this.loggedInUser.name]);
     }
   }
 
   createUser(data: any){
-    if(data.userType == UserTypes.Doctor){
+    if(data.UserType == UserTypes.Doctor){
       this.loginSevice.setLoggedInUser(this.CreateDoctor(data));
-    } else if(data.userType == UserTypes.Nurse) {
+    } else if(data.UserType == UserTypes.Nurse) {
       this.loginSevice.setLoggedInUser(this.CreateNurse(data));
-    } else if(data.userType == UserTypes.Patient) {
+    } else if(data.UserType == UserTypes.Patient) {
       this.loginSevice.setLoggedInUser(this.CreatePatient(data));
     }
   }
 
-  CreateDoctor(data){
-    this.loggedInUser = new Doctor(UserTypes.Doctor,
-      data.name,
-      data.email,
-      data.password,
-      data.ssn
+  CreateDoctor(data): Doctor{
+    return new Doctor(UserTypes.Doctor,
+      data.Name,
+      data.Email,
+      data.Password,
+      data.Ssn
+    );
+  }
+
+  CreateNurse(data): Nurse{
+    return new Nurse(UserTypes.Nurse,
+      data.Name,
+      data.Email,
+      data.Password,
+      data.Ssn
     )
   }
 
-  CreateNurse(data){
-    this.loggedInUser = new Nurse(UserTypes.Nurse,
-      data.name,
-      data.email,
-      data.password,
-      data.ssn
-    )
-  }
-
-  CreatePatient(data){
-    this.loggedInUser = new Patient(UserTypes.Patient,
-      data.name,
-      data.email,
-      data.password,
-      data.ssn,
-      data.complaint,
-      data.createdBy
+  CreatePatient(data): Patient{
+    return new Patient(UserTypes.Patient,
+      data.Name,
+      data.Email,
+      data.Password,
+      data.Ssn,
+      data.Complaint,
+      data.CreatedBy
     )
   }
 

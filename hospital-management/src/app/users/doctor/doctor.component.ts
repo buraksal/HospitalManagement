@@ -35,11 +35,7 @@ export class DoctorComponent implements OnInit {
               private jwtHelper: JwtHelperService) { }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(
-      params => {
-        this.docName = params.name;
-      }
-    )
+    this.loggedInUser = this.loginService.getLoggedInUser();
     this.addPatientForm = new FormGroup({
       name: new FormControl(this.name, [Validators.required]),
       ssn: new FormControl(this.ssn, [
