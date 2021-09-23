@@ -21,3 +21,6 @@ button {
 ul {
     height: 100vh;
 }
+.pageNumber{
+    display: flex;
+}

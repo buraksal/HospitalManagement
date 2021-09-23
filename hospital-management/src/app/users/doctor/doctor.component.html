@@ -51,6 +51,11 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="pageNumber">
+                                <button class="btn btn-primary" (click)="previousList()" disabled="pageNumber<1"> < </button>
+                                <button class="btn btn-primary">{{pageNumber}}</button>
+                                <button class="btn btn-primary" (click)="nextList()"> > </button>
+                            </div>
                         </div>
                         <div *ngIf="selectedOption==='add'">
                             <form [formGroup]="addPatientForm" (ngSubmit)="onSubmit()">

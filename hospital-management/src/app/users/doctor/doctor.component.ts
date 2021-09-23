@@ -30,6 +30,9 @@ export class DoctorComponent implements OnInit {
   recordFound: boolean = true;
   loggedInUser: any;
 
+  pageNumber: number = 1;
+  takeLimit: number = 2;
+
   constructor(public activatedRoute: ActivatedRoute,
               public loginService: LoginService,
               private jwtHelper: JwtHelperService) { }
@@ -161,9 +164,18 @@ export class DoctorComponent implements OnInit {
   listPatient(){
     this.successfullAddition = false;
     this.selectedOption = "list";
-    axios.get('https://localhost:44349/user/getPatientList')
+    this.isAuthenticated();
+    const params = {
+      pageNumber: this.pageNumber,
+      takeLimit: this.takeLimit
+    }
+    const headers = { 
+      'Content-Type':'application/json'
+    };
+    axios.post('https://localhost:44349/user/getPatientListPagination', params, { headers })
       .then(response => {
         this.patientList = response.data
+        console.log(response)
     });
   }
 
@@ -179,7 +191,8 @@ export class DoctorComponent implements OnInit {
       createdby: this.loggedInUser.ssn,
     };
     const headers = { 
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      'Token': localStorage.getItem("jwt")
     };
     axios.post('https://localhost:44349/user/createpatient', params, { headers })
       .then(response => {
@@ -193,8 +206,19 @@ export class DoctorComponent implements OnInit {
     this.addPatientForm.reset();  
   }
 
+  previousList(){
+    this.pageNumber--;
+    this.listPatient();
+  }
+
+  nextList(){
+    this.pageNumber++;
+    this.listPatient();
+  }
+
   isAuthenticated(){
     const token: string = localStorage.getItem("jwt");
+    console.log(!this.jwtHelper.isTokenExpired(token));
     if(token && !this.jwtHelper.isTokenExpired(token)) return true;
     else return false;
   }
