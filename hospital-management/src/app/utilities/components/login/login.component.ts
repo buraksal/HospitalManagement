@@ -7,7 +7,6 @@ import { Doctor } from 'src/app/shared/models/admin.model';
 import { Nurse } from 'src/app/shared/models/nurse.model';
 import { Patient } from 'src/app/shared/models/patient.model';
 import { UserTypes } from 'src/app/shared/models/usertypes.model';
-import { LoginService } from '../../services/login-service/login-service';
 
 
 @Component({
@@ -25,11 +24,9 @@ export class LoginComponent implements OnInit {
   fieldTextType: boolean;
   invalidLogin: boolean;
   
-  constructor(private router: Router,
-              private loginSevice: LoginService) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.loggedInUser = this.loginSevice.getLoggedInUser();
     this.loginForm = new FormGroup({
       email: new FormControl(this.email, [
         Validators.required,
@@ -74,8 +71,8 @@ export class LoginComponent implements OnInit {
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(token);
     this.createUser(decodedToken.User);
-    this.loggedInUser = this.loginSevice.getLoggedInUser();
-    if( this.loggedInUser.userType == UserTypes.Doctor){
+    this.loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if(this.loggedInUser.userType == UserTypes.Doctor){
       this.router.navigate(['/doctor', this.loggedInUser.name]);
     } else if(this.loggedInUser.userType == UserTypes.Nurse){
       this.router.navigate(['/nurse', this.loggedInUser.name]);
@@ -86,11 +83,11 @@ export class LoginComponent implements OnInit {
 
   createUser(data: any){
     if(data.UserType == UserTypes.Doctor){
-      this.loginSevice.setLoggedInUser(this.CreateDoctor(data));
+      localStorage.setItem("loggedInUser", JSON.stringify(this.CreateDoctor(data)));
     } else if(data.UserType == UserTypes.Nurse) {
-      this.loginSevice.setLoggedInUser(this.CreateNurse(data));
+      localStorage.setItem("loggedInUser", JSON.stringify(this.CreateNurse(data)));
     } else if(data.UserType == UserTypes.Patient) {
-      this.loginSevice.setLoggedInUser(this.CreatePatient(data));
+      localStorage.setItem("loggedInUser", JSON.stringify(this.CreatePatient(data)));
     }
   }
 

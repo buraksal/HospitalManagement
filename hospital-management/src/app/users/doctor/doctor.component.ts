@@ -3,7 +3,6 @@ import { Patient } from '../../shared/models/patient.model';
 import axios from 'axios';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { LoginService } from 'src/app/utilities/services/login-service/login-service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
@@ -34,11 +33,10 @@ export class DoctorComponent implements OnInit {
   takeLimit: number = 2;
 
   constructor(public activatedRoute: ActivatedRoute,
-              public loginService: LoginService,
               private jwtHelper: JwtHelperService) { }
 
   ngOnInit(): void {
-    this.loggedInUser = this.loginService.getLoggedInUser();
+    this.loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     this.addPatientForm = new FormGroup({
       name: new FormControl(this.name, [Validators.required]),
       ssn: new FormControl(this.ssn, [
@@ -170,12 +168,12 @@ export class DoctorComponent implements OnInit {
       takeLimit: this.takeLimit
     }
     const headers = { 
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem("jwt")
     };
-    axios.post('https://localhost:44349/user/getPatientListPagination', params, { headers })
+    axios.post('https://localhost:44349/user/getPatientListPagination', params, {headers})
       .then(response => {
         this.patientList = response.data
-        console.log(response)
     });
   }
 
@@ -190,9 +188,11 @@ export class DoctorComponent implements OnInit {
       complaint: this.addPatientForm.get('complaint').value,
       createdby: this.loggedInUser.ssn,
     };
+
+    console.log('jwt ', localStorage.getItem('jwt'))
     const headers = { 
       'Content-Type':'application/json',
-      'Token': localStorage.getItem("jwt")
+      'Authorization': 'Bearer ' + localStorage.getItem("jwt")
     };
     axios.post('https://localhost:44349/user/createpatient', params, { headers })
       .then(response => {
