@@ -93,7 +93,8 @@ export class DoctorComponent implements OnInit {
       ssn: this.patientSSN
     };
     const headers = { 
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem("jwt")
     };
     axios.post('https://localhost:44349/user/getPatient', params, { headers })
       .then(response => {
@@ -130,7 +131,8 @@ export class DoctorComponent implements OnInit {
       createdby: this.editPatientForm.get('createdby').value
     };
     const headers = { 
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem("jwt")
     };
     axios.put('https://localhost:44349/user/updatePatient', params, {headers})
       .then(response => {
@@ -147,7 +149,8 @@ export class DoctorComponent implements OnInit {
   deletePatient(){
     axios.delete('https://localhost:44349/user/deletePatient', {
       headers: {
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem("jwt")
       },
       data: {
         ssn: this.patientSSN
